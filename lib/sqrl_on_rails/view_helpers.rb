@@ -7,12 +7,11 @@ module SqrlOnRails
     def sqrlize
 
       nut = random_nut
+      csrf = session[:_csrf_token].delete '='
 
-      session[:sqrl_nut] = nut
+      sqrl_url = 'sqrl://' + SqrlOnRails.configuration.login_uri + "/sqrl?nut=#{nut}&_csrf_token=#{csrf}"
 
-      sqrl_url = 'sqrl://' + SqrlOnRails.configuration.login_uri + '/sqrl?nut=' + nut
-
-      qr = RQRCode::QRCode.new sqrl_url, size: 14, level: :l
+      qr = RQRCode::QRCode.new sqrl_url, size: 5, level: :l
 
       output = '<img class="qr" src="' + qr.as_png.to_data_url + '" title="Click here to login"></img>'
       output = output.html_safe if output.respond_to? :html_safe
@@ -21,9 +20,7 @@ module SqrlOnRails
     end
 
     def random_nut
-      nut = (SecureRandom.urlsafe_base64 + SecureRandom.urlsafe_base64).delete('-_=').slice(0, 22)
-      nut = (nut.ljust(22, SecureRandom.urlsafe_base64.delete('-_=')) if nut.length < 22)
-      nut.to_s
+      SecureRandom.urlsafe_base64.to_s
     end
 
     def decrypt_session_cookie(cookie, key)
