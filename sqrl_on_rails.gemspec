@@ -1,35 +1,25 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sqrl_on_rails/version'
+$:.push File.expand_path("../lib", __FILE__)
 
-Gem::Specification.new do |spec|
-  spec.name          = "sqrl_on_rails"
-  spec.version       = SqrlOnRails::VERSION
-  spec.authors       = ["Pablo Soares"]
-  spec.email         = ["pablo@firefueled.com"]
+# Maintain your gem's version:
+require "sqrl_on_rails/version"
 
-  spec.summary       = %q{Simple way to integrate GRC's SQRL login system into your app}
-  spec.description   = %q{This gem provides way to integrate GRC's SQRL login system with your app}
-  spec.homepage      = "http://sqrl_on_rails.firefueled.com"
-  spec.license       = "MIT"
+# Describe your gem and declare its dependencies:
+Gem::Specification.new do |s|
+  s.name          = "sqrl_on_rails"
+  s.version       = SqrlOnRails::VERSION
+  s.authors       = ["Pablo Soares"]
+  s.email         = ["pablo@firefueled.com"]
 
-  # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
-  # delete this section to allow pushing this gem to any host.
-  if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-  else
-    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
-  end
+  s.summary       = %q{Simple way to integrate GRC's SQRL login system into your app}
+  s.description   = %q{This gem provides way to integrate GRC's SQRL login system with your app}
+  s.homepage      = "http://sqrl_on_rails.firefueled.com"
+  s.license       = "MIT"
 
-  spec.files         = Dir["{lib,app}/**/*"] + ["LICENSE.txt", "README.md"]
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.test_files = Dir["test/**/*"]
 
-  spec.add_runtime_dependency 'rqrcode', '~> 0.6'
+  s.add_dependency "rails", '~> 4.2'
+  s.add_dependency 'rqrcode', '~> 0.6'
 
-  spec.add_development_dependency "bundler", "~> 1.10"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", '~> 0'
+  s.add_development_dependency "sqlite3", '~> 0'
 end

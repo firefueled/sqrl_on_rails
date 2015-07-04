@@ -3,15 +3,14 @@ require 'securerandom'
 
 module SqrlOnRails
   module ViewHelpers
-
     def sqrlize
 
       nut = random_nut
       csrf = session[:_csrf_token].delete '='
 
-      sqrl_url = 'sqrl://' + SqrlOnRails.configuration.login_uri + "/sqrl?nut=#{nut}&_csrf_token=#{csrf}"
+      sqrl_url = "sqrl://www.example.com/sqrl?nut=#{nut}&_csrf_token=#{csrf}"
 
-      qr = RQRCode::QRCode.new sqrl_url, size: 5, level: :l
+      qr = RQRCode::QRCode.new sqrl_url, size: 6, level: :l
 
       output = '<img class="qr" src="' + qr.as_png.to_data_url + '" title="Click here to login"></img>'
       output = output.html_safe if output.respond_to? :html_safe
