@@ -3,7 +3,7 @@
     setTimeout @request, 2000
 
   request: ->
-    $.get('/am_loggedin', { 'session_id': session['session_id'] },
+    $.get('/am_loggedin', { 'nut': session['nut'] },
       (data) ->
         alert JSON.stringify data
     )

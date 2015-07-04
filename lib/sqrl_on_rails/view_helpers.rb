@@ -15,6 +15,8 @@ module SqrlOnRails
       output = '<img class="qr" src="' + qr.as_png.to_data_url + '" title="Click here to login"></img>'
       output = output.html_safe if output.respond_to? :html_safe
 
+      SqrlAuthentication.create nut: nut, csrf: csrf, session: session[:session_id]
+
       output
     end
 
