@@ -1,23 +1,25 @@
 require 'rqrcode'
 require 'securerandom'
+require 'rbnacl/libsodium'
 
 module SqrlOnRails
   module ViewHelpers
+    
     def sqrlize
 
       nut = random_nut
+      p 'session'
+      p session
       csrf = session[:_csrf_token].delete '='
 
       sqrl_url = "sqrl://www.example.com/sqrl?nut=#{nut}&_csrf_token=#{csrf}"
 
       qr = RQRCode::QRCode.new sqrl_url, size: 6, level: :l
 
+      SqrlAuthentication.create! nut: nut, csrf: csrf, session: session[:session_id]
+
       output = '<img class="qr" src="' + qr.as_png.to_data_url + '" title="Click here to login"></img>'
       output = output.html_safe if output.respond_to? :html_safe
-
-      SqrlAuthentication.create nut: nut, csrf: csrf, session: session[:session_id]
-
-      output
     end
 
     def random_nut
