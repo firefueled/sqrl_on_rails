@@ -3,19 +3,22 @@ module SqrlOnRails
     helper SqrlOnRails::ApplicationHelper
     skip_before_filter  :verify_authenticity_token
 
-    def signed_challenge
-      signed_challenge = params[:signed_challenge]
-      server_url = params[:server_url]
+    def attempt_login
+      client = params[:client]
+      server = params[:server]
+      ids = params[:ids]
+      pids = params[:pids]
+      urs = params[:urs]
 
       p signed_challenge
       p server_url
 
-      render status: :ok unless valid?
+      render status: :ok unless valid?(signed_challenge, server_url)
 
       respond
     end
 
-    def valid?
+    def valid?(signed_challenge, server_url)
       true
     end
 
