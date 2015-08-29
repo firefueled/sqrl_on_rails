@@ -7,23 +7,20 @@ module SqrlOnRails
     
     def sqrlize
 
-      nut = random_nut
-      p 'session'
-      p session
-      csrf = session[:_csrf_token].delete '='
+      # client ip will be 0.0.0.0 when not over ssl
+      client_ip = IPAddr.new("0.0.0.0").to_s
+      client_ip = IPAddr.new(request.remote_ip).to_s if request.ssl?
 
-      sqrl_url = "sqrl://www.example.com/sqrl?nut=#{nut}&_csrf_token=#{csrf}"
+      # 20 bytes of entropy. '='s are not present
+      nut = SecureRandom.urlsafe_base64 160/8
 
-      qr = RQRCode::QRCode.new sqrl_url, size: 6, level: :l
+      sqrl_url = "sqrl://www.example.com/sqrl?nut=#{nut}"
 
-      SqrlAuthentication.create! nut: nut, csrf: csrf, session: session[:session_id]
+      qr = RQRCode::QRCode.new sqrl_url, size: 4, level: :l
 
-      output = '<img class="qr" src="' + qr.as_png.to_data_url + '" title="Click here to login"></img>'
-      output = output.html_safe if output.respond_to? :html_safe
-    end
+      SqrlAuthentication.create! nut: nut, session: session[:session_id], client_ip: client_ip
 
-    def random_nut
-      SecureRandom.urlsafe_base64.to_s
+      render partial: 'sqrl_on_rails/sqrlqrcode', locals: {qrcode_url: qr.as_png.to_data_url}
     end
 
     def decrypt_session_cookie(cookie, key)
