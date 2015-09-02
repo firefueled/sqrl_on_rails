@@ -23,21 +23,15 @@ module SqrlOnRails
     end
 
     def am_loggedin
-      p "param=#{params[:nut]}"
-      p "session=#{session[:nut]}"
+      p "nut=#{session[:nut]}"
       nut = params[:nut]
 
-      auth_attempt = nil
-      auth_attempt = SqrlAuthentication.where( nut: nut, session: session[:session_id] ).first unless nut.blank?
+      auth_attempt = SqrlAuthentication.where( nut: nut, session: session[:session_id] ).first || nil
 
-      if auth_attempt and auth_attempt.authenticated and auth_attempt.csrf = csrf
-
+      if auth_attempt and auth_attempt.authenticated
         render json: {msg: 'yep', session_id: session[:session_id]}
-
       else 
-
         render json: {msg: 'nope'}
-
       end
     end
 
