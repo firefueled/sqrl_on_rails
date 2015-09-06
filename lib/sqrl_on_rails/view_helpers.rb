@@ -13,7 +13,7 @@ module SqrlOnRails
 
       # 20 bytes of entropy. '='s are not present
       nut = SecureRandom.urlsafe_base64 160/8
-      session[:nut] = nut
+      cookies[:nut] = nut
 
       sqrl_url = "sqrl://www.example.com/sqrl?nut=#{nut}"
 
