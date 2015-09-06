@@ -9,12 +9,12 @@
         console.debug JSON.stringify data
         
         if data? and data.msg == 'yep'
-          @login
+          SqrlLoginPoller.login()
         
         console.debug 'retasrting...'
-        @poll
+        SqrlLoginPoller.poll()
       .fail (data) ->
-        return  @poll
+        return SqrlLoginPoller.poll()
 
   login: ->
     alert 'youre logged in'
