@@ -69,7 +69,7 @@ RUBY
 
       def model_contents
         buffer = <<-CONTENT
-  # SQRL is usign this model. yay!
+  # SQRL is using this model. yay!
 CONTENT
         buffer
       end

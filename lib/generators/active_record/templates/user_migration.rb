@@ -1,4 +1,4 @@
-class SqrlCreate<%= table_name.camelize %> < ActiveRecord::Migration
+class CreateSqrl<%= table_name.camelize %> < ActiveRecord::Migration
   def change
     create_table :<%= table_name %> do |t|
 <%= migration_data -%>
