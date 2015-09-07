@@ -3,15 +3,25 @@ module SqrlOnRails
     helper SqrlOnRails::ApplicationHelper
     skip_before_filter  :verify_authenticity_token
 
-    def attempt_login
+    def authenticate
       client = params[:client]
       server = params[:server]
       ids = params[:ids]
       pids = params[:pids]
       urs = params[:urs]
 
-      p signed_challenge
-      p server_url
+      # validate all that crap
+
+        # extract the nut somehow
+        # check if valid
+        # change authenticated to true
+
+      # get the user and store id in the session
+
+      if user
+        session[:user_id] = user.id
+        redirect_to root_url, :notice => "Logged in!"
+      end
 
       render status: :ok unless valid?(signed_challenge, server_url)
 
@@ -24,7 +34,6 @@ module SqrlOnRails
 
     def am_loggedin
       nut = params[:nut]
-      p "nut=#{nut}"
 
       auth_attempt = SqrlAuthentication.where( nut: nut ).first || nil
 
