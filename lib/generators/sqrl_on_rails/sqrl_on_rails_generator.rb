@@ -13,12 +13,14 @@ module SqrlOnRails
 
       hook_for :orm
 
-      def add_sqrl_routes
-        sqrl_route  = "sqrl_for :#{plural_name}"
-        sqrl_route << %Q(, class_name: "#{class_name}") if class_name.include?("::")
-        sqrl_route << %Q(, skip: :all) unless options.routes?
-        route sqrl_route
-      end
+      # class_option :routes, desc: "Generate routes", type: :boolean, default: true
+
+      # def add_sqrl_routes
+      #   sqrl_route  = "sqrl_for :#{plural_name}"
+      #   sqrl_route << %Q(, class_name: "#{class_name}") if class_name.include?("::")
+      #   sqrl_route << %Q(, skip: :all) unless options.routes?
+      #   route sqrl_route
+      # end
     end
   end
 end

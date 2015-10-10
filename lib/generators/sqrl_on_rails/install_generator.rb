@@ -11,10 +11,10 @@ module SqrlOnRails
       def copy_initializer
         template "sqrl_on_rails.rb", "config/initializers/sqrl_on_rails.rb"
       end
-      
+
       def copy_migration
-        time = Time.now.strftime "%Y%m%d%H%M%S_"
-        copy_file "migration.rb", "db/migrate/#{time}create_sqrl_on_rails_authentication.rb"
+        time = Time.now.utc.strftime "%Y%m%d%H%M%S"
+        copy_file "migration.rb", "db/migrate/#{time}_create_sqrl_on_rails_authentications.rb"
       end
 
       def copy_locale

@@ -13,7 +13,7 @@ module ActiveRecord
         if model_exists? || migration_exists?(table_name)
           migration_template "user_migration_existing.rb", "db/migrate/add_sqrl_to_#{table_name}.rb"
         else
-          migration_template "user_migration.rb", "db/migrate/sqrl_create_#{table_name}.rb"
+          migration_template "user_migration.rb", "db/migrate/create_sqrl_#{table_name}.rb"
         end
       end
 
@@ -38,8 +38,10 @@ module ActiveRecord
 
       def migration_data
 <<RUBY
-      t.string :suk, null: false
-      t.string :vuk, null: false
+      t.boolean :sqrlable, default:false, null: false
+
+      t.string :suk
+      t.string :vuk
 
       t.integer :sign_in_count, default: 0, null: false
       
