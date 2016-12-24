@@ -15,3 +15,5 @@ Gemfile.lock
 /pkg/
 /spec/reports/
 /tmp/
+*.sublime-project
+*.sublime-workspace
