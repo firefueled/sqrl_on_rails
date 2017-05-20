@@ -10,12 +10,13 @@ module SqrlOnRails
       client_ip = IPAddr.new(request.remote_ip).to_s
       nut = "#{RbNaCl::Random.random_bytes}#{Time.now.to_i}#{client_ip}#{session[:session_id]}"
       nut = RbNaCl::Hash.sha256 nut
-      nut = Base64.urlsafe_encode nut, false
+      nut = Base64.urlsafe_encode64 nut, padding:false
 
       cookies[:nut] = nut
 
-      #TODO server domain, sfn
-      sqrl_url = "sqrl://192.168.1.58:3000/sqrl_auth?nut=#{nut}"
+      #TODO server sfn
+      url_options = Rails.application.config.sqrl_url_options
+      sqrl_url = "sqrl://#{url_options[:host]}:#{url_options[:port]}/sqrl_auth?nut=#{nut}"
 
       qr = RQRCode::QRCode.new sqrl_url, size: 4, level: :l
 
