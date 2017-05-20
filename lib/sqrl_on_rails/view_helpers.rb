@@ -1,21 +1,21 @@
 require 'rqrcode'
 require 'securerandom'
 require 'rbnacl/libsodium'
+require "base64"
 
 module SqrlOnRails
   module ViewHelpers
-    
+
     def sqrlize
+      client_ip = IPAddr.new(request.remote_ip).to_s
+      nut = "#{RbNaCl::Random.random_bytes}#{Time.now.to_i}#{client_ip}#{session[:session_id]}"
+      nut = RbNaCl::Hash.sha256 nut
+      nut = Base64.urlsafe_encode nut, false
 
-      # client ip will be 0.0.0.0 when not over ssl
-      client_ip = IPAddr.new("0.0.0.0").to_s
-      client_ip = IPAddr.new(request.remote_ip).to_s if request.ssl?
-
-      # 20 bytes of entropy. '='s are not present
-      nut = SecureRandom.urlsafe_base64 160/8
       cookies[:nut] = nut
 
-      sqrl_url = "sqrl://www.example.com/sqrl?nut=#{nut}"
+      #TODO server domain, sfn
+      sqrl_url = "sqrl://192.168.1.58:3000/sqrl_auth?nut=#{nut}"
 
       qr = RQRCode::QRCode.new sqrl_url, size: 4, level: :l
 
