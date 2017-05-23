@@ -14,13 +14,13 @@ module SqrlOnRails
 
       cookies[:nut] = nut
 
-      #TODO server sfn
+      sfn = Base64.urlsafe_encode64 SqrlOnRails.sfn, padding:false
       url_options = Rails.application.config.sqrl_url_options
-      sqrl_url = "sqrl://#{url_options[:host]}:#{url_options[:port]}/sqrl_auth?nut=#{nut}"
+      sqrl_url = "sqrl://#{url_options[:host]}:#{url_options[:port]}/sqrl_auth?nut=#{nut}&sfn=#{sfn}"
 
-      qr = RQRCode::QRCode.new sqrl_url, size: 4, level: :l
+      qr = RQRCode::QRCode.new sqrl_url, size: 5, level: :l
 
-      SqrlAuthentication.create! nut: nut, session: session[:session_id], client_ip: client_ip
+      # SqrlAuthentication.create! nut: nut, session: session[:session_id], client_ip: client_ip
 
       render partial: 'sqrl_on_rails/sqrlqrcode', locals: {qrcode_url: qr.as_png.to_data_url}
     end
