@@ -7,22 +7,22 @@ module SqrlOnRails
 
       desc "Run this to setup SQRL! Everything will be explained later"
 
-      # def copy_initializer
-      #   template "sqrl_on_rails.rb", "config/initializers/sqrl_on_rails.rb"
-      # end
+      def copy_initializer
+        template "sqrl_on_rails.rb", "config/initializers/sqrl_on_rails.rb"
+      end
 
-      # def copy_migration
-      #   time = Time.now.utc.strftime "%Y%m%d%H%M%S"
-      #   copy_file "migration.rb", "db/migrate/#{time}_create_sqrl_on_rails_authentications.rb"
-      # end
+      def copy_migration
+        time = Time.now.utc.strftime "%Y%m%d%H%M%S"
+        copy_file "migration.rb", "db/migrate/#{time}_create_sqrl_on_rails_authentications.rb"
+      end
 
-      # def copy_locale
-      #   copy_file "../../../config/locales/en.yml", "config/locales/sqrl_on_rails.en.yml"
-      # end
+      def copy_locale
+        copy_file "../../../config/locales/en.yml", "config/locales/sqrl_on_rails.en.yml"
+      end
 
-      # def create_models
-      #   generate 'model', 'SqrlOnRailsAuthentication --no-migration'
-      # end
+      def create_models
+        generate 'model', 'SqrlOnRailsAuthentication --no-migration'
+      end
 
       def include_env_config
         application(nil, env: :development) do <<-CONFIG
